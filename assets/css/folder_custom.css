@@ -1,0 +1,112 @@
+
+@font-face {
+  font-family:'SegoeUI-Semilight';
+  src: url('../fonts/SegoeUI-Semilight_gdi.eot');
+  src: url('../fonts/SegoeUI-Semilight_gdi.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SegoeUI-Semilight_gdi.woff') format('woff'),
+    url('../fonts/SegoeUI-Semilight_gdi.ttf') format('truetype'),
+    url('../fonts/SegoeUI-Semilight_gdi.svg#SegoeUI-Semilight') format('svg');
+  font-weight: 350;
+  font-style: normal;
+  font-stretch: normal;
+  unicode-range: U+000D-2666;
+}
+
+body, h1, h2, h3, h4, h5{
+	font-family: 'SegoeUI-Semilight';
+}
+
+.background_image{
+	background-image:url('../img/filesInFolder_black_blur.png');
+	background-attachment:fixed;
+	background-repeat: no-repeat;	
+	color:white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+.white_fonts{
+	color:white;
+}
+
+.row.vdivide [class*='col-']:not(:last-child):after {
+  background: #e0e0e0;
+  width: 1px;
+  content: "";
+  display:block;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right: 0;
+  min-height: 70px;
+  
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.content_container{
+	margin-top: 80px;
+	border: 1px solid #D0D0D0;
+	padding: 5px;
+}
+
+.subcontent_container{
+  border: 1px solid #D0D0D0;
+  padding: 5px;
+}
+
+
+
+
+/*manage icon*/
+.manage { 
+	width: 250px;
+	 height:250px;
+	display:inline-block;
+	background-image: url('../img/icon_generic_blues_manage2.png');} 
+.manage:hover {
+ 	background-image: url('../img/icon_generic_blues_manage2_inv.png');} 
+.manage:active {
+    background-image: url('../img/icon_generic_blues_manage2_inv2.png');
+} 
+
+/*add icon*/
+.add { 
+	width: 250px;
+	height:250px;
+	display:inline-block;
+	background-image: url('../img/icon_generic_blues_add.png');} 
+.add:hover {	
+
+ 	background-image: url('../img/icon_generic_blues_add_inv.png');} 
+.add:active {
+    background-image: url('../img/icon_generic_blues_add_inv2.png');
+} 
+
+/*share icon*/
+.share { 
+	width: 250px;
+	height:250px;
+	display:inline-block;
+	background-image: url('../img/icon_generic_blues_share.png');} 
+.share:hover {
+ 	background-image: url('../img/icon_generic_blues_share_inv.png');} 
+.share:active {
+    background-image: url('../img/icon_generic_blues_share_inv2.png');
+} 
+
+/* hover */
+.clickable-row:hover{
+  cursor: pointer;
+}

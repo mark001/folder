@@ -1,0 +1,49 @@
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fade_in_fast {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+}
+@keyframes fade_in_fast {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+}
+
+@-webkit-keyframes fade_in_slow {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes fade_in_slow {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.fade_in_fast {
+    -webkit-animation-name: fade_in_fast;
+    animation-name: fade_in_fast;
+}
+
+.fade_in_slow{
+    -webkit-animation-name: fade_in_fast;
+    animation-name: fade_in_fast;   
+}
+
+.active{
+	animation-name: fade_in_fast;
+	animation-duration: 1s;
+}
+
+/*.alert{
+    animation-name: fade_in;
+    animation-duration: 1s; 
+}*/
+
+#main{
+    animation-name: fade_in_fast;
+    animation-duration: 1s;
+}
