@@ -6,16 +6,8 @@
 			parent::__construct();
 			if (!($this->session->userdata('username'))){ redirect('login');}
 			$this->load->model('user_model');
-			
-		}
-
-		public function logout()
-		{
-			$this->session->unset_userdata('user_id');
-			$this->session->unset_userdata('username');
-			$this->session->unset_userdata('user_type');
-			$this->session->unset_userdata('email');	
-			redirect('login');
+			$this->load->model('report_model');
+			$this->load->model('folder_model');
 		}
 
 		public function checkIfLogin(){
@@ -38,9 +30,10 @@
 		public function reports(){
 			$data['title'] = 'Reports';
 			$data['report'] = 'active';
+			$data['reports'] = $this->report_model->getAllUnreadReports();
 
 			$this->load->view('admin/templates/header', $data);
-			$this->load->view('admin/reports');
+			$this->load->view('admin/reports', $data);
 			$this->load->view('admin/templates/footer');
 		}
 
@@ -78,9 +71,10 @@
 		public function manage_folders(){
 			$data['title'] = "Manage Folders";
 			$data['manage_folders'] = 'active';
+			$data['folders'] = $this->folder_model->getAllFolders();
 
 			$this->load->view('admin/templates/header', $data);
-			$this->load->view('admin/manage_folders');
+			$this->load->view('admin/manage_folders', $data);
 			$this->load->view('admin/templates/footer');
 		}
 
@@ -151,5 +145,11 @@
 			//$data = crc32(str);
 			$this->session->set_flashdata("message", "<strong><u>".$user['username']."'s password</u></strong> has been successfully reset.");
 			redirect('administrator/accounts/manage');
+		}
+
+		public function read($id){
+			$data = array('report_status', '0');
+			$this->report_model->updateReport($id, $data);
+			echo "read";
 		}
 	}

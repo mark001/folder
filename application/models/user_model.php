@@ -1,11 +1,9 @@
 <?php
-
-	class user_model extends CI_Model{
+	class user_model extends CI_Model {
 
 		public function __construct(){
 			parent::__construct();
         	$this->table = 'users';
-        	$this->load->database();
 		}
 
 		public function addUser($data){
@@ -13,11 +11,11 @@
 		}
 
 		public function updateUser($id, $data){
-			return $this->db->where('user_id', $id)->update($this->table, $data);
+			$this->db->where('user_id', $id)->update($this->table, $data);
 		}
 
 		public function deleteUser($id){
-			return $this->db->delete($this->table, array('user_id' => $id));
+			$this->db->delete($this->table, array('user_id' => $id));
 		}
 
 		public function getUserByUserID($id){
@@ -32,7 +30,7 @@
 			return $this->db->from($this->table)->where('email', $email)->get()->row_array();
 		}
 
-		public function getAllUsers($username = NULL){
+		public function getAllUsers(){
 			return $this->db->order_by('username', 'asc')->get($this->table)->result_array();
 		}
 	}

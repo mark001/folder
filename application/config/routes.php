@@ -43,14 +43,18 @@ $route['404_override'] = '';
 
 //client pages
 $route['home'] = "folder_user/index";
-$route['profile/(:any)'] = "";
+$route['profile/(:any)'] = "folder_user/profile/$1";
 $route['feedback'] = "folder_user/feedback";
-$route['folder/myfolders'] = "folder_user/my_folders";
+$route['folder/(:any)'] = "folder_user/my_folders/$1";
 $route['folder/new'] = "folder_user/new_folder";
-$route['folder/others'] = "folder/other_folders";
+$route['folder/others'] = "folder_user/other_folders";
+//$route['folder/(:any)'] = "folder_user/source";
+
+//client functions
+$route['reporting'] = "folder_user/report";
+$route['folder/create'] = "folder_user/createNewFolder";
 
 //admin pages
-$route['administrator/logout'] = "folder_admin/logout";
 $route['administrator'] = "folder_admin/index";
 $route['administrator/reports'] = "folder_admin/reports";
 $route['administrator/accounts/add'] = "folder_admin/setForm_user";
@@ -71,6 +75,7 @@ $route['sign-up'] = "folder/sign_up";
 $route['signing-up'] = "folder/create_user";
 $route['logging-in'] = "folder/login";
 $route['login'] = "folder/index";
+$route['logout'] = "folder/logout";
 
 
 

@@ -1,0 +1,100 @@
+CREATE DATABASE folder;
+
+USE folder;
+
+CREATE TABLE IF NOT EXIST users(
+	user_id	VARCHAR(42) NOT NULL PRIMARY KEY,
+	username VARCHAR(50) NOT NULL,
+	user_type CHAR(1) NOT NULL DEFAULT 1,
+	password VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	user_status CHAR(1) NOT NULL DEFAULT '1'
+);
+
+CREATE TABLE IF NOT EXISTS reports (
+	report_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	report_intensity CHAR(1) NOT NULL DEFAULT '0',
+	report_details TEXT NOT NULL,
+	report_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	screenshot VARCHAR(200) NOT NULL,
+	report_type CHAR (1) NOT NULL DEFAULT '0',
+	report_status CHAR(1) NOT NULL DEFAULT '1',
+	user_id VARCHAR (42) NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS folders(
+	folder_id VARCHAR(42) NOT NULL PRIMARY KEY,
+	folder_name VARCHAR(100) NOT NULL UNIQUE,
+	folder_access VARCHAR(1) NOT NULL,
+	folder_type VARCHAR(10) NOT NULL,
+	folder_details TEXT NOT NULL,
+	folder_update DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	folder_author VARCHAR(30) NOT NULL,
+	user_id VARCHAR(42) NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS branches(
+	branch_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	branch_name VARCHAR(20) NOT NULL DEFAULT 'master',
+	folder_id VARCHAR(42) NOT NULL,
+	user_id VARCHAR(42) NOT NULL,
+	FOREIGN KEY (folder_id) REFERENCES folders(folder_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+/*-------------------------------------- not yet applied ---------------------------------------*/
+CREATE TABLE IF NOT EXISTS commits(
+	commit_id VARCHAR(10) NOT NULL,
+	commit_message TEXT NOT NULL,
+	commit_date DATETIME NOT NULL,
+	folder_id VARCHAR(42) NOT NULL,
+	file_id INT NOT NULL,
+	FOREIGN KEY (folder_id) REFERENCES repositories(folder_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (file_id) REFERENCES files(file_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+/*CREATE TABLE*/
+
+CREATE TABLE IF NOT EXISTS push(
+	push_id INT NOT NULL AUTO_INCREMENT,
+	push_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	commit_id VARCHAR(10) NOT NULL,
+	FOREIGN KEY (commit_id) REFERENCES commits (commit_id)
+);
+
+CREATE TABLE IF NOT EXISTS files(
+	file_id INT NOT NULL PRIMARY KEY,
+	file_name VARCHAR(30) NOT NULL,
+	file_size INT NOT NULL,
+	file_type VARCHAR(10) NOT NULL,
+	file_path VARCHAR(200) NOT NULL,
+	file_lastModified DATETIME NOT NULL,
+	folder_id VARCHAR(42) NOT NULL,
+	user_id VARCHAR(42) NOT NULL,
+	FOREIGN KEY (folder_id) REFERENCES repositories(folder_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+/*
+CREATE TABLE pull_request(
+	repo_id VARCHAR (42) NOT NULL,
+	user_id VARCHAR (42) NOT NULL,
+	user_id_request (42) NOT NULL,
+	FOREIGN KEY (repo_id) REFERENCES repositories(repo_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (user_id_request) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE	
+);
+
+CREATE TABLE approve_request(
+
+);
+*/
+
+CREATE TABLE IF NOT EXISTS pull (
+	repo_id VARCHAR (42) NOT NULL,
+	user_id VARCHAR (42) NOT NULL,
+	FOREIGN KEY (repo_id) REFERENCES repositories(repo_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+);

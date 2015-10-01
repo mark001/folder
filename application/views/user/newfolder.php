@@ -2,8 +2,14 @@
 <div class="container">
   <div class="content_container">
     <h1>New folder</h1>
-      <form class="form-horizontal" role="form">
+      <form action="/folder/folder/create" method="POST" class="form-horizontal" role="form">
         <fieldset>
+           <div class="form-group">
+              <label for="folder_name" class="col-lg-2 control-label">Author</label>
+              <div class="col-lg-10">
+                <input class="form-control" id="folder_name" type="text" name="txtFolderAuthor" value="<?php echo $this->session->userdata('username');  ?>" readonly>
+              </div>
+            </div>
            <div class="form-group">
               <label for="folder_name" class="col-lg-2 control-label">Name</label>
               <div class="col-lg-10">
@@ -15,7 +21,8 @@
             <div class="col-lg-10">
               <div class="checkbox">
                 <label>
-                  <input id="public_radio" value="Public"  type="checkbox" name="chkAccess"> Private folder
+                  <input id="accessLevel" name="accessLevel" type="hidden" value="1">
+                  <span id="access"><i id="accessIcon" class="fa fa-lock"></i> <span id="accessLabel">Private</span></span>
                 </label>
               </div>
             </div>
@@ -23,7 +30,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Type</label>
             <div class="col-lg-10">
-              <?php $types = array ('Java', 'C#', 'HTML', 'PHP', 'JAVASCRIPT'); ?>
+              <?php $types = array ('Java', 'HTML', 'PHP', 'JAVASCRIPT'); ?>
               <?php foreach($types as $value) { ?>
                 <div class="radio">
                   <label>
@@ -51,4 +58,21 @@
       </form> 
   </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#access').click(function(){
+      if ($('#accessLevel').val() == "1"){
+        $('#accessLabel').text("Public");
+        $('#accessLevel').val("0");
+        $('#accessIcon').removeClass('fa-lock');
+        $('#accessIcon').addClass('fa-unlock');
+      } else {
+        $('#accessLevel').val("1");
+        $('#accessLabel').text("Private");
+        $('#accessIcon').removeClass('fa-unlock');
+        $('#accessIcon').addClass('fa-lock');
+      }
+    });
+  });
+</script>
 <!--end content-->

@@ -41,12 +41,21 @@
 				if ($loginUser['user_type'] == '1'){
 					redirect('administrator');
 				} else {
-					redirect('folder_user/');
+					redirect('home');
 				}
 			} else {
 				$this->session->set_flashdata("message", "Username or password is incorrect.");
 				redirect('login');
 			}
+		}
+
+		public function logout()
+		{
+			$this->session->unset_userdata('user_id');
+			$this->session->unset_userdata('username');
+			$this->session->unset_userdata('user_type');
+			$this->session->unset_userdata('email');	
+			redirect('login');
 		}
 
 		public function check_user_username($username){

@@ -12,9 +12,9 @@
              </ul>
             <div id="myTabContent" class="tab-content">
               <div class="tab-pane fade active in" id="problem">
-                <form class="form-horizontal" role="form">
-                  <fieldset>
+                <form action="reporting" method="POST" enctype="multipart/form-data"  class="form-horizontal" role="form">                   <fieldset>
                     <legend>Problem</legend>
+                    <input type="hidden" name="reportType" value="1">
                     <div class="form-group">
                       <label for="select" class="col-lg-2 control-label">Intensity</label>
                       <div class="col-lg-10">
@@ -30,7 +30,7 @@
                     <div class="form-group">
                       <label for="textArea" class="col-lg-2 control-label">Details*</label>
                       <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="textArea" name="txtFeedbackDetails" required></textarea>
+                        <textarea class="form-control" rows="3" id="textArea" name="txtDetails" required></textarea>
                         <span class="help-block">Please provide as much details as possible from the encountered problem. <i>*required field</i></span>
                       </div>
                     </div>
@@ -51,15 +51,16 @@
                 </form>
             </div>
             <div class="tab-pane fade" id="suggestion">
-              <form class="form-horizontal" role="form">
+              <form action="reporting" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
                 <fieldset>
                   <legend>Suggestion</legend>
+                  <input type="hidden" name="reportType" value="2">
                   <p>We would love to hear your suggestion.</p>
                   <div class="form-group">
                     <label for="textArea" class="col-lg-2 control-label">Details</label>
                     <div class="col-lg-10">
-                      <textarea class="form-control" rows="3" id="textArea" name="txtSuggestionDetails"></textarea>
-                      <span class="help-block">Tell us what you think about <img style="max-width:80px; margin-top:-15px;" src="<?php echo base_url(); ?>assets/img/banner.png">. And what you can do more for it.</span>
+                      <textarea class="form-control" rows="3" id="textArea" name="txtDetails"></textarea>
+                      <span class="help-block">Tell us what you think about <img style="max-width:30px; margin-top:-5px;" src="<?php echo base_url(); ?>assets/img/banner2.png">. And what you can do more for it.</span>
                     </div>
                   </div>
                   <div class="form-group">

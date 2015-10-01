@@ -1,0 +1,19 @@
+pls import folder.sql
+admin:
+username: mark fernandez
+password: fernandez
+user (with folder):
+username: mark
+password: abcde12345
+user (without folder):
+username: kim agustin
+password: agustink
+------------------------------------
+updates:
+-can create folder
+-can submit report/suggestion
+-login/logout
+-sign up
+-read folders in admin
+-read my folders in user
+-read reports in admin
