@@ -19,9 +19,9 @@
 			$this->load->view('user/templates/footer');
 		}
 
-		public function profile($id){
+		public function profile($username){
 			$data['title'] = "My Profile";
-			$data['user'] = $this->user_model->getUserByUserID($id);
+			$data['user'] = $this->user_model->getUserByUsername(urldecode($username));
 
 			$this->load->view('user/templates/header', $data);
 			$this->load->view('user/profile', $data);
@@ -29,9 +29,9 @@
 		}
 
 		public function my_folders($username){
-			$user = $this->user_model->getUserByUsername(urldecode($username));
+			$id = $this->user_model->getUserByUsername(urldecode($username))['user_id'];
 			$data['title'] = "My Folders";
-			$data['folders'] = $this->folder_model->getAllMyFolders($user['user_id']);
+			$data['folders'] = $this->folder_model->getAllMyFolders($id);
 
 			$this->load->view('user/templates/header', $data);
 			$this->load->view('user/myfolders', $data);
@@ -48,9 +48,10 @@
 
 		public function other_folders(){
 			$data['title'] = "Other Folders";
+			$data['folders'] = $this->folder_model->getAllPublicFolders();
 			
 			$this->load->view('user/templates/header', $data);
-			$this->load->view('user/otherfolders');
+			$this->load->view('user/otherfolders', $data);
 			$this->load->view('user/templates/footer');		
 		}
 
@@ -125,5 +126,30 @@
 
 			$this->session->set_flashdata("message", "<strong>".$this->input->post("txtFolderName")."</strong> has been successfully created!");
 			redirect('folder/'.$this->session->userdata('username'));
+		}
+
+		public function update_account_info($username){
+			$id = $this->user_model->getUserByUsername(urldecode($username))['user_id'];
+			$data = array(
+					'username' => $this->input->post('txtUsername'),
+					'email' => $this->input->post('txtEmail')
+			);
+
+			$this->user_model->updateUser($id, $data);
+			$this->session->set_flashdata("message", "You successfully updated your account information!");
+			$this->session->set_userdata('username', $this->input->post('txtUsername'));
+			$this->session->set_userdata('email', $this->input->post('txtEmail'));
+			redirect('profile/'.$this->session->userdata('username'));
+		}
+
+		public function change_password($username){
+			$id = $this->user_model->getUserByUsername(urldecode($username))['user_id'];
+			$newpassword = sha1($this->input->post('txtNewPassword'));
+			$data = array('password' => $newpassword);
+
+			$this->user_model->updateUser($id, $data);
+			$this->session->set_flashdata("message", "You successfully change your password!");
+			$this->session->set_userdata('password', $newpassword);
+			redirect('profile/'.$this->session->userdata('username'));
 		}
 	}

@@ -24,12 +24,12 @@
                 <td><?php echo $user['username']; ?></td>
                 <td><?php echo $user['email']; ?></td>
                 <td><?php echo $user['user_type']=='1'?'administrator':'client' ?></td>
-                <td><a href="/folder/administrator/accounts/edit/<?php echo $user['user_id']; ?>" style="text-decoration:none;"><i class="fa fa-pencil-square-o"></i> Edit</a> 
+                <td><a href="/folder/administrator/accounts/edit/<?php echo $user['username']; ?>" style="text-decoration:none;"><i class="fa fa-pencil-square-o"></i> Edit</a> 
                   <!-- start of delete -->
                     &nbsp;&nbsp;
-                    <a href="#" data-toggle="modal" data-target=".<?php echo $user['user_id']; ?>delete" style="text-decoration:none;"><i class="fa fa-trash"></i> Delete</a>
+                    <a href="#" data-toggle="modal" data-target=".<?php echo str_replace(' ', '', $user['username']); ?>delete" style="text-decoration:none;"><i class="fa fa-trash"></i> Delete</a>
                     <!-- Modal Warning <DELETE> -->
-                    <div class="<?php echo $user['user_id']; ?>delete modal fade" id="myModal" role="dialog">
+                    <div class="<?php echo str_replace(' ', '', $user['username']) ?>delete modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog modal-sm">
                           <!-- Modal content-->
                           <div class="modal-content">
@@ -42,7 +42,7 @@
                                 <h6 class="help-block alert alert-danger">Deleting the user will result to removing all of his credentials and repositories.</h6>
                             </div>
                             <div class="modal-footer">
-                              <a href="/folder/administrator/accounts/delete/<?php echo $user['user_id']; ?>" class="btn btn-danger" role="button">Delete</a>
+                              <a href="/folder/administrator/accounts/delete/<?php echo $user['username']; ?>" class="btn btn-danger" role="button">Delete</a>
                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                           </div>
@@ -52,9 +52,9 @@
                   <!-- end of delete -->
                   <!-- start of reset password -->
                     &nbsp;&nbsp;
-                    <a href="#" data-toggle="modal" data-target=".<?php echo $user['user_id']; ?>reset" style="text-decoration:none;"><i class="fa fa-repeat"></i> Reset Password</a>
+                    <a href="#" data-toggle="modal" data-target=".<?php echo str_replace(' ', '', $user['username']); ?>reset" style="text-decoration:none;"><i class="fa fa-repeat"></i> Reset Password</a>
                     <!-- Modal Warning <Reset Password> -->
-                      <div class="<?php echo $user['user_id']; ?>reset modal fade" id="myModal" role="dialog">
+                      <div class="<?php echo str_replace(' ', '', $user['username']); ?>reset modal fade" id="myModal" role="dialog">
                           <div class="modal-dialog modal-sm">
                             <!-- Modal content-->
                             <div class="modal-content">
@@ -67,7 +67,7 @@
                                   <h6 class="help-block alert alert-info">An email will be sent to the user to inform them about their password.</h6>
                               </div>
                               <div class="modal-footer">
-                                <a href="/folder/administrator/accounts/reset/password/<?php echo $user['user_id']; ?>" class="btn btn-primary" role="button">Reset Password</a>
+                                <a href="/folder/administrator/accounts/reset/password/<?php echo $user['username']; ?>" class="btn btn-primary" role="button">Reset Password</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                               </div>
                             </div>
@@ -77,7 +77,7 @@
                     <!-- start of reset password -->
                     <!-- start of ban -->
                       &nbsp;&nbsp;
-                      <a href="#" data-toggle="modal" data-target=".<?php echo $user['user_id']; ?>ban" style="text-decoration:none;">
+                      <a href="#" data-toggle="modal" data-target=".<?php echo str_replace(' ', '', $user['username']); ?>ban" style="text-decoration:none;">
                         <?php if ($user['user_status'] == '1') { ?>
                           <i class="fa fa-ban"></i> Ban User
                         <?php } else { ?>
@@ -85,7 +85,7 @@
                         <?php } ?>
                       </a>
                       <!-- Modal Warning <ban/unban> -->
-                        <div class="<?php echo $user['user_id']; ?>ban modal fade" id="myModal" role="dialog">
+                        <div class="<?php echo str_replace(' ', '', $user['username']); ?>ban modal fade" id="myModal" role="dialog">
                             <div class="modal-dialog modal-sm">
                               <!-- Modal content-->
                               <div class="modal-content">
@@ -98,7 +98,7 @@
                                     <h6 class="help-block alert alert-warning">Banning users will prevent them from logging in.</h6>
                                 </div>
                                 <div class="modal-footer">
-                                  <a href="/folder/administrator/accounts/ban/<?php echo $user['user_id']; ?>" class="btn btn-warning" role="button"><?php echo $user['user_status']=='1'?'Ban User':'Unban User' ?> </a>
+                                  <a href="/folder/administrator/accounts/ban/<?php echo $user['username']; ?>" class="btn btn-warning" role="button"><?php echo $user['user_status']=='1'?'Ban User':'Unban User' ?> </a>
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                               </div>
@@ -119,10 +119,5 @@
         <h4>There are no user data in the database! <a id="link" href="" style="color:black">(<i class="fa fa-refresh"></i> refresh)</a></h4>
       </div>
     <?php } ?>
-    <script type="text/javascript">
-        setTimeout(function(){
-          $('#alert').fadeOut();
-        }, 2000);
-    </script>
 </div>
 <!-- end of content --> 

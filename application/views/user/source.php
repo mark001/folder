@@ -13,7 +13,7 @@
 
 <?php 
   $jsType = '';
-  $myfile = 'C:\xampp\htdocs\folder\assets\hello.java';
+  $myfile = "C:/xampp/htdocs/sample/banner.php";
   $handle = fopen($myfile, 'r');
   $data = fread($handle, filesize($myfile));
   $info = new SplFileInfo($myfile);
@@ -41,7 +41,7 @@
 <script type="text/javascript">SyntaxHighlighter.all();</script>
 <div class="container-fluid">
 <!--left pane-->
-<div class="col-xs-4 col-sm-4 col-md-3" id="left-pane">
+<div class="col-xs-3 col-sm-3 col-md-2" id="left-pane">
   <h4> Folders</h4>
 
   <ul class="nav nav-sidebar">
@@ -77,7 +77,7 @@
 </div>
 
 <!--main content-->
-<div class="col-xs-6 col-xs-offset-4 col-sm-6 col-sm-offset-4 col-md-7 col-md-offset-3 main">
+<div class="col-xs-7 col-xs-offset-3 col-sm-7 col-sm-offset-3 col-md-8 col-md-offset-2">
   <div class="content_container">
     <h1 class="page-header">Folder Name</h1>
     <h3 class="sub-header">File Name</h3>
@@ -95,13 +95,57 @@
 <!---end main content-->
 
 <!--right sidebar-->
-<div class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10 " id="right-pane">
+<div class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10" id="right-pane">
     <h4> Controls</h4>
     <ul class="nav nav-sidebar">
-      <li><a href="#"><span class="fa fa-sitemap"></span> Create Branch</a></li>
+      <li><a href="#" data-toggle="modal" data-target=".createBranch"><span class="fa fa-sitemap"></span> Create Branch</a></li>
+          
       <li><a href="#"><span class="glyphicon glyphicon-arrow-up"></span> Push</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-arrow-down"></span> Pull</a></li>
       <li><a href="#"><span class="fa fa-file-archive-o"></span> Download as ZIP</a></li>
   </div>
+  <!-- Modal Warning <Reset Password> -->
+            <div class="createBranch modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-md">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Create Branch</h4>
+                    </div>
+                    <div class="modal-body">
+                          <form class="form-horizontal" role="form">
+                            <fieldset>
+                              
+                              <div class="form-group">
+                                <label for="createFrom" class="col-lg-3 control-label">Create Branch from</label>
+                                <div class="col-lg-9">
+                                  <input type="text" class="form-control" id="createFrom" name="txtCreateFrom" placeholder="Folder name" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label for="branchName" class="col-lg-3 control-label">Branch Name</label>
+                                <div class="col-lg-9">
+                                  <input type="text" class="form-control" id="branchName" name="txtBranchName" placeholder="Branch name" >
+                                </div>
+                              </div>
+                              <div class="collapse" id="edit_submit">
+                                  <div class="form-group" >
+                                  <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="submit" class="btn btn-primary" id="update_edit">Create</button>
+                                    <a  class="btn btn-default" id="cancel_edit">Cancel</a>
+                                  </div>
+                              </div>
+                          </div>
+                        </fieldset>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <a href="#" class="btn btn-primary" role="button">Create</a>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- Modal Warning <Reset Password> -->
 <!--end right sidebar-->
-</div>

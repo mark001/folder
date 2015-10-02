@@ -7,8 +7,7 @@
     </div>
   <?php } else { ?>
     <?php foreach($reports as $report) { ?>
-    <form class="form-horizontal" role="form">
-      <input id="<?php echo $report['report_id'] ?>" type="hidden" value="<?php echo $report['report_id'] ?>">
+      <input id="reportID" type="hidden" value="<?php echo $report['report_id'] ?>">
       <fieldset>
         <div class="subcontent_container">
           <div class="form-group">
@@ -25,7 +24,7 @@
           <div class="form-group">
             <label for="details" class="col-lg-2 control-label">Details</label>
             <div class="col-lg-10">
-              <textarea class="form-control" rows="3" id="details" style="resize:vertical;" readonly><?php echo $report['report_details'] ?></textarea>
+              <textarea class="form-control" rows="3" id="textArea" readonly><?php echo $report['report_details'] ?></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -46,43 +45,27 @@
               </h4>
             </div>
           </div>
-      </fieldset>
-    </form> <br/>
+      </fieldset> 
+      <br/>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#asRead').change(function(){
+              $.ajax({
+                type: "POST",
+                url: "<?php echo base_url() ?>folder_admin/read/" + $('#reportID').val(),
+                success: function (data){
+                    console.log(data);
+                    if (data == "read"){
+                      location.reload();
+                    }
+                }
+              });
+          });
+        });
+    </script>
   <?php
     } 
   } 
   ?>
 </div>
-<script type="text/javascript">
-  /*$('#asRead').change(function(){
-          $.ajax({
-            type: "POST",
-            url: "<?php echo base_url() ?>index.php/folder_admin/read/" + username,
-            success: function (data){
-              if (username == ""){
-                $('#username_group').removeClass("has-success");
-                $('#username_group').removeClass("has-error");
-                $('#help-warning-username').css('display','none');
-                $('#check-user').css('display','none');
-                un = false;
-              } else{
-                if (data == "1"){
-                  $('#username_group').removeClass("has-success");
-                  $('#username_group').addClass("has-error");
-                  $('#help-warning-username').css('display','block');
-                  $('#check-user').css('display','none');
-                  un = false;
-                } else {
-                  $('#username_group').removeClass("has-error");
-                  $('#username_group').addClass("has-success");
-                  $('#help-warning-username').css('display','none');
-                  $('#check-user').css('display','block');
-                  un = true;
-                }
-              }
-            }
-          });
-      });
-    });*/
-</script>
 <!-- end of content -->

@@ -32,8 +32,8 @@
                 ?>
               </td>
               <td>
-                <!--<a href="#" style="text-decoration:none;" title="Upload folder"><i class="fa fa-upload"></i> Push</a>&nbsp;&nbsp;
-                <a href="#" style="text-decoration:none;" title="Dowload folder"><i class="fa fa-download"></i> Pull</a>-->
+                <a href="#" style="text-decoration:none;"><i class="fa fa-eye"></i> View</a> &nbsp;&nbsp;
+                <a href="#" style="text-decoration:none;"><i class="fa fa-trash"></i> Delete</a> &nbsp;&nbsp;
               </td>
             </tr>
           <?php } ?>

@@ -53,6 +53,8 @@ $route['folder/others'] = "folder_user/other_folders";
 //client functions
 $route['reporting'] = "folder_user/report";
 $route['folder/create'] = "folder_user/createNewFolder";
+$route['edit/profile/(:any)'] = "folder_user/update_account_info/$1";
+$route['change/password/(:any)'] = "folder_user/change_password/$1";
 
 //admin pages
 $route['administrator'] = "folder_admin/index";
@@ -76,8 +78,8 @@ $route['signing-up'] = "folder/create_user";
 $route['logging-in'] = "folder/login";
 $route['login'] = "folder/index";
 $route['logout'] = "folder/logout";
-
-
+$route['check/username/(:any)'] = "folder/check_user_username/$1";
+$route['check/email/(:any)'] = "folder/check_user_email/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

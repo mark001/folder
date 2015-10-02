@@ -9,7 +9,7 @@ user (without folder):
 username: kim agustin
 password: agustink
 ------------------------------------
-updates:
+updates (10/1/2015):
 -can create folder
 -can submit report/suggestion
 -login/logout
@@ -17,3 +17,9 @@ updates:
 -read folders in admin
 -read my folders in user
 -read reports in admin
+
+updates (10/2/2015)
+-user can update account information
+-user can change password
+-admin can mark as read reports in admin
+-refactor code instead of passing user id changed to username for security purposes and clean routing

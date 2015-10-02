@@ -2,34 +2,36 @@
 <div id="main" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   <h1 class="page-header"><?php echo $title; ?></h1>
   <div class='col-sm-5 col-md-5'>
-   <form id="form" role="form" method="POST" action="<?php if(!empty($user)) {echo "/folder/administrator/accounts/update/".$user['user_id'];} 
+   <form id="form" role="form" method="POST" action="<?php if(!empty($user)) {echo "/folder/administrator/accounts/update/".$user['username'];} 
    else { echo "/folder/administrator/accounts/create"; } ?>">
+    <input id="username_hidden" type="hidden" value="<?php echo $user['username'] ?>">
+    <input id="email_hidden" type="hidden" value="<?php echo $user['email'] ?>">
     <div id="username_group" class="form-group">
       <label for="username">Username:</label>
       <input name="txtUsername" type="text" class="form-control" id="username" placeholder="username"value="<?php echo $user['username'] ?>">
-      <p id="help-warning-username" class="help-block" style="display:none">Username already exist.</p>
       <i id="check-user" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+      <p id="help-warning-username" class="help-block" style="display:none">Username already exist.</p>
     </div>
 
     <div id="email_group" class="form-group">
       <label for="email">Email:</label>
       <input name="txtEmail" type="email" class="form-control" id="email" placeholder="example@folder.com" value="<?php echo $user['email'] ?>">
-      <p id="help-warning-email" class="help-block" style="display:none">Email already used.</p>
       <i id="check-email" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+      <p id="help-warning-email" class="help-block" style="display:none">Email already used.</p>
     </div>
 
     <div id="password_group" class="form-group">
       <label for="pwd">Password:</label>
       <input name="txtPassword" type="password" class="form-control" id="pwd" placeholder="Password" value="<?php echo $user['password'] ?>">
-      <p id="help-warning-pwd" class="help-block">Password must contain 8 or more characters!</p>
       <i id="check-pwd" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+      <p id="help-warning-pwd" class="help-block">Password must contain 8 or more characters!</p>
     </div>
 
     <div id="confirmpassword_group" class="form-group">
       <label for="pwdcon">Confirm Password:</label>
       <input name="txtConfirmPassword" type="password" class="form-control" id="pwdcon" placeholder="Confirm Password" value="<?php echo $user['password'] ?>">
-      <p id="help-warning-pwdcon" class="help-block" style="display:none">Passwords does not matched!</p>
       <i id="check-pwdcon" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+      <p id="help-warning-pwdcon" class="help-block" style="display:none">Passwords does not matched!</p>
     </div>
 
     <div id="usertype_group" class="form-group">
@@ -49,6 +51,7 @@
 
      <div class="form-group">
           <button type="submit" class="btn btn-primary"><?php echo $btn; ?></button>
+          <?php if (isset($user)){ ?><button id="cancel" type="button" class="btn btn-default">Cancel</button><?php } ?>
      </div> 
     </form>
     <script type="text/javascript">
@@ -69,10 +72,14 @@
           if ($('#pwd').val().length < 8){
             $('#password_group').addClass('has-error');
             $('#password_group').removeClass('has-success');
+            $('#help-warning-pwd').css('display', 'block');
+            $('#check-pwd').css('display', 'none');
             pas = false;
           } else {
             $('#password_group').removeClass('has-error');
             $('#password_group').addClass('has-success');
+            $('#help-warning-pwd').css('display', 'none');
+            $('#check-pwd').css('display', 'block');
             pas = true;
           }
         });
@@ -105,7 +112,7 @@
           var email = $('#email').val();
           $.ajax({
             type: "POST",
-            url: "<?php echo base_url() ?>index.php/folder/check_user_email/" + encodeURIComponent(email),
+            url: "/folder/check/email/" + encodeURIComponent(email),
             success: function (data){
               if (email == ""){
                 $('#email_group').removeClass("has-success");
@@ -113,7 +120,13 @@
                 $('#help-warning-email').css('display','none');
                 $('#check-email').css('display','none');
                 em = false;
-              } else{
+              } else if (email == $('#email_hidden').val()){
+                $('#email_group').removeClass("has-success");
+                $('#email_group').removeClass("has-error");
+                $('#help-warning-email').css('display','none');
+                $('#check-email').css('display','none');
+                em = true;
+              } else {
                 if (data == "1"){
                   $('#email_group').removeClass("has-success");
                   $('#email_group').addClass("has-error");
@@ -136,7 +149,7 @@
           var username = $("#username").val();
           $.ajax({
             type: "POST",
-            url: "<?php echo base_url() ?>index.php/folder/check_user_username/" + username,
+            url: "/folder/check/username/" + username,
             success: function (data){
               if (username == ""){
                 $('#username_group').removeClass("has-success");
@@ -144,7 +157,13 @@
                 $('#help-warning-username').css('display','none');
                 $('#check-user').css('display','none');
                 un = false;
-              } else{
+              } else if (username == $('#username_hidden').val()){
+                $('#username_group').removeClass("has-success");
+                $('#username_group').removeClass("has-error");
+                $('#help-warning-username').css('display','none');
+                $('#check-user').css('display','none');
+                un = true;
+              } else {
                 if (data == "1"){
                   $('#username_group').removeClass("has-success");
                   $('#username_group').addClass("has-error");

@@ -9,6 +9,9 @@
     <link href="<?php echo base_url(); ?>assets/css/custom_animation.css" rel="stylesheet" type="text/css">
     <link href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="<?php echo base_url(); ?>assets/img/logo.png">
+    <script src="<?php echo base_url(); ?>assets/js/jquery-1.11.3.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+
     <title>folder &middot; Sign Up.</title>
   </head>
   <body class="background_image noselect" id='main'>
@@ -23,30 +26,30 @@
                      <form role="form" method="POST" action="/folder/signing-up">
                        <div id="username_group" class="form-group">
                         <label for="username">Username:</label>
-                        <input name="txtUsername" type="text" class="form-control" id="username" placeholder="username"value="">
-                        <p id="help-warning-username" class="help-block" style="display:none">Username already exist.</p>
+                        <input name="txtUsername" type="text" class="form-control" id="username" placeholder="username">
                         <i id="check-user" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+                        <p id="help-warning-username" class="help-block" style="display:none">Username already exist.</p>
                       </div>
 
                        <div id="email_group" class="form-group">
                         <label for="email">Email:</label>
-                        <input name="txtEmail" type="email" class="form-control" id="email" placeholder="example@folder.com" value="">
-                        <p id="help-warning-email" class="help-block" style="display:none">Email already used.</p>
+                        <input name="txtEmail" type="email" class="form-control" id="email" placeholder="example@folder.com">
                         <i id="check-email" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+                        <p id="help-warning-email" class="help-block" style="display:none">Email already used.</p>
                       </div>
 
                       <div id="password_group" class="form-group">
                         <label for="pwd">Password:</label>
-                        <input name="txtPassword" type="password" class="form-control" id="pwd" placeholder="Password" value="">
-                        <p id="help-warning-pwd" class="help-block">Password must contain 8 or more characters!</p>
+                        <input name="txtPassword" type="password" class="form-control" id="pwd" placeholder="Password">
                         <i id="check-pwd" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+                        <p id="help-warning-pwd" class="help-block">Password must contain 8 or more characters!</p>
                       </div>
 
                       <div id="confirmpassword_group" class="form-group">
                         <label for="pwdcon">Confirm Password:</label>
-                        <input name="txtConfirmPassword" type="password" class="form-control" id="pwdcon" placeholder="Confirm Password" value="">
-                        <p id="help-warning-pwdcon" class="help-block" style="display:none">Passwords does not matched!</p>
+                        <input name="txtConfirmPassword" type="password" class="form-control" id="pwdcon" placeholder="Confirm Password">
                         <i id="check-pwdcon" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+                        <p id="help-warning-pwdcon" class="help-block" style="display:none">Passwords does not matched!</p>
                       </div>
 
                       <div class="form-group">
@@ -65,9 +68,6 @@
             </div>                
          </div>
         </div>
-  
-    <script src="<?php echo base_url(); ?>assets/js/jquery-1.11.3.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         var un = false;
         var em = false;
@@ -80,10 +80,14 @@
             if ($('#pwd').val().length < 8){
               $('#password_group').addClass('has-error');
               $('#password_group').removeClass('has-success');
+              $('#help-warning-pwd').css('display', 'block');
+              $('#check-pwd').css('display', 'none');
               pas = false;
             } else {
               $('#password_group').removeClass('has-error');
               $('#password_group').addClass('has-success');
+              $('#help-warning-pwd').css('display', 'none');
+              $('#check-pwd').css('display', 'block');
               pas = true;
             }
           });
@@ -116,8 +120,9 @@
             var email = $('#email').val();
             $.ajax({
               type: "POST",
-              url: "<?php echo base_url() ?>index.php/folder/check_user_email/" + encodeURIComponent(email),
+              url: "/folder/check/email/" + encodeURIComponent(email),
               success: function (data){
+                console.log(data);
                 if (email == ""){
                   $('#email_group').removeClass("has-success");
                   $('#email_group').removeClass("has-error");
@@ -147,8 +152,9 @@
             var username = $("#username").val();
             $.ajax({
               type: "POST",
-              url: "<?php echo base_url() ?>index.php/folder/check_user_username/" + username,
+              url: "/folder/check/username/" + username,
               success: function (data){
+                console.log(data);
                 if (username == ""){
                   $('#username_group').removeClass("has-success");
                   $('#username_group').removeClass("has-error");
@@ -211,5 +217,5 @@
       </script>
   </div>
 </div>
-  </body>
-  </html>
+</body>
+</html>

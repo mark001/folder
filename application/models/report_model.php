@@ -25,4 +25,8 @@
 		public function getAllUnreadReports(){
 			return $this->db->where('report_status', '1')->order_by('report_date', 'asc')->get($this->table)->result_array();
 		}
+
+		public function getNumberOfUnreadReports(){
+			return $this->db->from($this->table)->where('report_status', '1')->count_all_results();
+		}
 	}

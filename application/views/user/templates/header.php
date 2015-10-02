@@ -49,7 +49,7 @@
                   <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> <?php echo $this->session->userdata('username');  ?> &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="/folder/profile/<?php echo $this->session->userdata('user_id'); ?>"><i class="fa fa-user"></i> Profile</a></li>
+                    <li><a href="/folder/profile/<?php echo $this->session->userdata('username'); ?>"><i class="fa fa-user"></i> Profile</a></li>
                     <li class="divider"></li>
                     <li><a href="/folder/feedback"><i class="fa fa-comment"></i> Feedback</a></li>
                     <li><a href="/folder/logout"><i class="fa fa-sign-out"></i> Sign Out</a></li>                
