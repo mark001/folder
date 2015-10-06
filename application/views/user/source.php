@@ -12,7 +12,7 @@
 </style>
 
 <?php 
-  $jsType = '';
+  /*$jsType = '';
   $myfile = "C:/xampp/htdocs/sample/banner.php";
   $handle = fopen($myfile, 'r');
   $data = fread($handle, filesize($myfile));
@@ -32,7 +32,7 @@
            break;
 
   }
-  fclose($handle);
+  fclose($handle);*/
 ?>
 
 
@@ -80,16 +80,13 @@
 <div class="col-xs-7 col-xs-offset-3 col-sm-7 col-sm-offset-3 col-md-8 col-md-offset-2">
   <div class="content_container">
     <h1 class="page-header">Folder Name</h1>
-    <h3 class="sub-header">File Name</h3>
+    <!--<h3 class="sub-header">File Name</h3>
       <div class="form-group">
           <div>
-            <pre class="form-control brush: <?php echo $type; ?>;" rows="10">
-              <?php 
-                echo $data;
-              ?>
+            <pre class="form-control brush: <?php echo $type; ?>" rows="10">
             </pre>
           </div>
-      </div>
+      </div>-->
   </div>
 </div>
 <!---end main content-->

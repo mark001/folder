@@ -4,7 +4,7 @@ username: mark fernandez
 password: fernandez
 user (with folder):
 username: mark
-password: abcde12345
+password: fernandez
 user (without folder):
 username: kim agustin
 password: agustink
@@ -23,3 +23,6 @@ updates (10/2/2015)
 -user can change password
 -admin can mark as read reports in admin
 -refactor code instead of passing user id changed to username for security purposes and clean routing
+
+updates (10/6/2015)
+- client able to push a file but the algorithm in deleting the file is error

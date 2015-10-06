@@ -30,7 +30,7 @@
             $count = 1;
             foreach($folders as $folder){
           ?>
-            <tr class="clickable-row" data-href="<?php echo base_url("home"); ?>">
+            <tr class="clickable-row" data-href="/folder/folder/<?php echo $this->session->userdata['username'] ?>/<?php echo $folder['folder_name'] ?>">
               <td><?php echo $count; ?></td>
               <td><?php echo $folder['folder_name'] ?></td>
               <td><?php echo $folder['folder_type'] ?></td>
@@ -40,7 +40,7 @@
                 ?>
               </td>
               <td>
-                <a href="#" style="text-decoration:none;" title="Upload folder"><i class="fa fa-upload"></i> Push</a>&nbsp;&nbsp;
+                <a href="/folder/folder/<?php echo $folder['folder_name'] ?>/push" style="text-decoration:none;" title="Upload folder"><i class="fa fa-upload"></i> Push</a>&nbsp;&nbsp;
                 <a href="#" style="text-decoration:none;" title="Dowload folder"><i class="fa fa-download"></i> Pull</a>
               </td>
             </tr>

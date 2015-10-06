@@ -12,7 +12,7 @@
              </ul>
             <div id="myTabContent" class="tab-content">
               <div class="tab-pane fade active in" id="problem">
-                <form action="reporting" method="POST" enctype="multipart/form-data"  class="form-horizontal" role="form">                   <fieldset>
+                <form action="reporting" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">                   <fieldset>
                     <legend>Problem</legend>
                     <input type="hidden" name="reportType" value="1">
                     <div class="form-group">
