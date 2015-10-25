@@ -18,7 +18,7 @@
           <tr>
             <th>#</th>
             <th>Folder Name</th>
-            <td>Folder Author</td>
+            <th>Folder Author</th>
             <th>Project Type</th>
             <th>Last Update</th>
             <th></th>
@@ -30,19 +30,19 @@
             $count = 1;
             foreach($folders as $folder){
           ?>
-            <tr class="clickable-row" data-href="<?php echo base_url("home"); ?>">
-              <td><?php echo $count; ?></td>
-              <td><?php echo $folder['folder_name'] ?></td>
-              <td><?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?></td>
-              <td><?php echo $folder['folder_type'] ?></td>
-              <td>
+            <tr>
+              <td class="clickable-row" data-href="/folder/folder/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>"><?php echo $count; ?></td>
+              <td class="clickable-row" data-href="/folder/folder/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>"><?php echo $folder['folder_name'] ?></td>
+              <td class="clickable-row" data-href="/folder/folder/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>"><?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?></td>
+              <td class="clickable-row" data-href="/folder/folder/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>"><?php echo $folder['folder_type'] ?></td>
+              <td class="clickable-row" data-href="/folder/folder/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>">
                 <?php
                   echo date_format(date_create($folder['folder_update']), 'm/d/Y g:ia');
                 ?>
               </td>
               <td>
-                <a href="#" style="text-decoration:none;" title="Dowload folder"><i class="fa fa-download"></i> Pull</a> &nbsp;&nbsp;
-                <a href="#" style="text-decoration:none;"><i class="fa fa-file-archive-o"></i> Download as ZIP</a>
+                <a href="/folder/folder/download/<?php echo $folder['folder_name'] ?>" style="text-decoration:none;" title="Dowload folder"><i class="fa fa-download"></i> Pull</a> &nbsp;&nbsp;
+                <a href="/folder/folder/download/zip/<?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?>/<?php echo $folder['folder_name'] ?>/master" style="text-decoration:none;"><i class="fa fa-file-archive-o"></i> Download as ZIP</a>
               </td>
             </tr>
           <?php 

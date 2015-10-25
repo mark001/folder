@@ -13,8 +13,8 @@
 			$this->db->where('folder_id', $id)->update($this->table, $data);
 		}
 
-		public function deleteFolder($id, $data){
-			$this->db->delete($this->table, array('user_id' => $id));
+		public function deleteFolder($id){
+			$this->db->delete($this->table, array('folder_id' => $id));
 		}
 
 		public function getAllFolders($order = NULL){
@@ -41,11 +41,16 @@
 			}	
 		}
 
-		public function getFolderByFolderID($id){
-			return $this->db->from($this->table)->where('folder_id', $id)->get()->row_array();
+		public function getFolderByFolderID($user_id, $folder_id){
+			$where_clause = array('user_id' => $user_id, 'folder_id' => $fodler_id);
+			return $this->db->from($this->table)->where($where_clause)->get()->row_array();
 		}
 
-		public function getFolderByFolderName($folderName){
-			return $this->db->from($this->table)->where('folder_name', $folderName)->get()->row_array();	
+		public function getFolderByFolderName($user_id, $foldername){
+			$where_clause = array('user_id' => $user_id, 'folder_name' => $foldername);
+			return $this->db->from($this->table)->where($where_clause)->get()->row_array();	
+		}
+		public function getNumberOfFolders(){
+			return $this->db->from($this->table)->count_all_results();
 		}
 	}

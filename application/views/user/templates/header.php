@@ -9,18 +9,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="<?php echo base_url(); ?>assets/img/logo.png">
     <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/folder_custom.css" rel="stylesheet">
-    <link rel="icon" href="<?php echo base_url(); ?>assets/img/logo.png">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/custom_animation.css">
     <link href="<?php echo base_url(); ?>assets/css/dashboard.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/css/sb-admin-2.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.min.css">
     <script src="<?php echo base_url(); ?>assets/js/jquery-2.1.4.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/shCoreEclipse.css"/>
     <script src="<?php echo base_url(); ?>assets/js/customjs_folder.js"></script>
+    <!--<script src="<?php echo base_url(); ?>assets/js/sb-admin-2.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>assets/styles/shCoreEclipse.css"/>
     
-    <title>folder &middot; Organize your codes.</title>
+    <title>folder &middot; <?php echo $title ?></title>
   </head>
   <body>  
     <div id="wrapper">

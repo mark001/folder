@@ -16,7 +16,7 @@
       <div class="container text-center">
         <a class="manage" href="/folder/folder/<?php echo $this->session->userdata('username');  ?>" title="Manage folders" alt="Manage folder"></a>
         <a class="add" href="/folder/folder/new" title="Create new folder" alt="New folder"></a>
-        <a class="share" href="share_folders.php" title="Share folder" alt="Share folder"></a>   
+        <a class="share" href="/folder/folder/others" title="Share folder" alt="Share folder"></a>   
       </div>  
   </div>
 </div>

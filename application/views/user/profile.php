@@ -21,16 +21,30 @@
 <div class="container">
 	<div class="content_container">
 		<h1>Profile</h1>
-			<?php if($this->session->flashdata('message') != ''){ ?>
-				<div id="alert" class="alert alert-success fade in">
-				  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				  <h4><?php echo $this->session->flashdata('message'); ?></h4>
-				</div>
-			<?php } ?>
+			<?php 
+              if($this->session->flashdata("message")  != ''){ 
+                if (strpos($this->session->flashdata("message"), "error") != 0) { 
+              ?>
+               <div id="alert" class="alert alert-danger fade in">
+              	<h4 class="help-block" align="center">
+                  	<?php echo $this->session->flashdata("message"); ?>
+              	 </h4>
+              </div>
+              <?php
+                } else { ?>
+                 <div id="alert" class="alert alert-success fade in">
+                  <h4 class="help-block" align="center">
+                    <?php echo $this->session->flashdata("message"); ?>
+                   </h4>
+                </div>
+              <?php
+                }
+              } 
+             ?>
 			<div class="container">
 				<div class="col-sm-2 col-md-2">
 					<label for="profile-image">
-						<div id="image-cropper">
+						<div id="image-cropper-circle">
 							<img class="profile noselect" id="prof" src="<?php echo base_url(); ?>assets/img/profile.png">
 						</div>
 					</label>
@@ -99,7 +113,9 @@
 	                   			<div class="form-group">
 			                    	<label for="currentPassword" class="col-lg-2 control-label">Current</label>
 				                    <div id="currentpassword_group" class="col-lg-10">
-				                    	<input type="password" class="form-control" id="currentPassword" name="txtCurrentPassword" value="<?php echo $this->session->userdata('password') ?>" readonly>
+				                    	<input type="password" class="form-control" id="currentPassword" name="txtCurrentPassword" required>
+				                    	<i id="check-curpwd" class="fa fa-check-circle" style="float:right; color:green; display:none;"></i>
+				                    	<p id="help-warning-curpwd" class="help-block" style="display:none">Password is incorrect!</p>
 				                    </div>
 			                    </div>
 			                    <div class="form-group">
@@ -138,6 +154,7 @@
 $(document).ready(function(){
 	var em = true;
 	var un = true;
+	var cur = false;
 	var newpas = false;
 	var con = false;
 
@@ -152,29 +169,34 @@ $(document).ready(function(){
 			$('#email').attr('readonly','readonly');
 			$('#username_group').removeClass("has-success");
 			$('#username_group').removeClass("has-error");
-			$('#help-warning-username').css('display','none');
-			$('#check-user').css('display','none');
+			$('#help-warning-username').hide();
+			$('#check-user').hide();
 			$('#email_group').removeClass("has-success");
 			$('#email_group').removeClass("has-error");
-			$('#help-warning-email').css('display','none');
-			$('#check-email').css('display','none');
+			$('#help-warning-email').hide();
+			$('#check-email').hide();
 			un = true;
 			em = true;
 		}
 	});
 
 	$('#change_password').click(function(){
-		$('#currentPassword').val("<?php echo $this->session->userdata('password') ?>");
+		$('#currentPassword').val("");
+		$('#currentpassword_group').removeClass("has-error");
+		$('#currentpassword_group').removeClass("has-success");
+		$('#check-curpwd').hide();
+		$('#help-warning-curpwd').hide();
 		$('#newPassword').val("");
 		$('#confirmPassword').val("");
 		$('#newpassword_group').removeClass('has-error');
 		$('#newpassword_group').removeClass('has-success');
-		$('#help-warning-newpwd').css('display', 'block');
-		$('#check-newpwd').css('display', 'none');
+		$('#help-warning-newpwd').show();
+		$('#check-newpwd').hide();
 		$('#confirmpassword_group').removeClass('has-success');
 		$('#confirmpassword_group').removeClass('has-error');
-		$('#help-warning-conpwd').css('display', 'none');
-		$('#check-conpwd').css('display', 'none');
+		$('#help-warning-conpwd').hide();
+		$('#check-conpwd').hide();
+		cur= false;
 		newpas = false;
 		con = false;
 	});
@@ -184,28 +206,33 @@ $(document).ready(function(){
 		$('#email').val("<?php echo $this->session->userdata('email') ?>");
 		$('#username_group').removeClass("has-success");
 		$('#username_group').removeClass("has-error");
-		$('#help-warning-username').css('display','none');
-		$('#check-user').css('display','none');
+		$('#help-warning-username').hide();
+		$('#check-user').hide();
 		$('#email_group').removeClass("has-success");
       	$('#email_group').removeClass("has-error");
-      	$('#help-warning-email').css('display','none');
-      	$('#check-email').css('display','none');
+      	$('#help-warning-email').hide();
+      	$('#check-email').hide();
       	un = true;
 		em = true;
 	});
 
 	$('#cancel_change').click(function(){
-		$('#currentPassword').val("<?php echo $this->session->userdata('password') ?>");
+		$('#currentPassword').val("");
+		$('#currentpassword_group').removeClass("has-error");
+		$('#currentpassword_group').removeClass("has-success");
+		$('#check-curpwd').hide();
+		$('#help-warning-curpwd').hide();
 		$('#newPassword').val("");
 		$('#confirmPassword').val("");
 		$('#newpassword_group').removeClass('has-error');
 		$('#newpassword_group').removeClass('has-success');
-		$('#help-warning-newpwd').css('display', 'block');
-		$('#check-newpwd').css('display', 'none');
+		$('#help-warning-newpwd').show();
+		$('#check-newpwd').hide();
 		$('#confirmpassword_group').removeClass('has-success');
 		$('#confirmpassword_group').removeClass('has-error');
-		$('#help-warning-conpwd').css('display', 'none');
-		$('#check-conpwd').css('display', 'none');
+		$('#help-warning-conpwd').hide();
+		$('#check-conpwd').hide();
+		cur= false;
 		newpas = false;
 		con = false;
 	});
@@ -219,27 +246,27 @@ $(document).ready(function(){
             if (email == ""){
 				$('#email_group').removeClass("has-success");
 				$('#email_group').removeClass("has-error");
-				$('#help-warning-email').css('display','none');
-				$('#check-email').css('display','none');
+				$('#help-warning-email').hide();
+				$('#check-email').hide();
 				em = false;
             } else if (email == "<?php echo $this->session->userdata('email') ?>"){
             	$('#email_group').removeClass("has-success");
               	$('#email_group').removeClass("has-error");
-              	$('#help-warning-email').css('display','none');
-              	$('#check-email').css('display','none');
+              	$('#help-warning-email').hide();
+              	$('#check-email').hide();
               	em = true;
         	} else {
               if (data == "1"){
 				$('#email_group').removeClass("has-success");
 				$('#email_group').addClass("has-error");
-				$('#help-warning-email').css('display','block');
-				$('#check-email').css('display','none');
+				$('#help-warning-email').show();
+				$('#check-email').hide();
 				em = false;
               } else {
 				$('#email_group').removeClass("has-error");
 				$('#email_group').addClass("has-success");
-				$('#help-warning-email').css('display','none');
-				$('#check-email').css('display','block');
+				$('#help-warning-email').hide();
+				$('#check-email').show();
 				em = true;
               }
             }
@@ -247,7 +274,9 @@ $(document).ready(function(){
         });
       });
 
-      $('#username').change(function(){
+		
+
+    $('#username').change(function(){
         var username = $("#username").val();
         $.ajax({
           type: "POST",
@@ -256,27 +285,27 @@ $(document).ready(function(){
             if (username == ""){
 				$('#username_group').removeClass("has-success");
 				$('#username_group').removeClass("has-error");
-				$('#help-warning-username').css('display','none');
-				$('#check-user').css('display','none');
+				$('#help-warning-username').hide();
+				$('#check-user').hide();
 				un = false;
             } else if (username == "<?php echo $this->session->userdata('username') ?>"){ 
             	$('#username_group').removeClass("has-success");
 				$('#username_group').removeClass("has-error");
-				$('#help-warning-username').css('display','none');
-				$('#check-user').css('display','none');
+				$('#help-warning-username').hide();
+				$('#check-user').hide();
               	un = true;
         	} else {
               if (data == "1"){
                 $('#username_group').removeClass("has-success");
                 $('#username_group').addClass("has-error");
-                $('#help-warning-username').css('display','block');
-                $('#check-user').css('display','none');
+                $('#help-warning-username').show();
+                $('#check-user').hide();
                 un = false;
               } else {
                 $('#username_group').removeClass("has-error");
                 $('#username_group').addClass("has-success");
-                $('#help-warning-username').css('display','none');
-                $('#check-user').css('display','block');
+                $('#help-warning-username').hide();
+                $('#check-user').show();
                 un = true;
               }
             }
@@ -284,18 +313,52 @@ $(document).ready(function(){
         });
     });
 
+	$('#currentPassword').change(function(){
+		var current = $('#currentPassword').val();
+		if (current == ""){
+			$('#currentpassword_group').removeClass("has-error");
+			$('#currentpassword_group').removeClass("has-success");
+			$('#check-curpwd').hide();
+			$('#help-warning-curpwd').hide();
+			cur= false;
+		} else {
+			$.ajax({
+				type: "POST",
+				url: "/folder/encrypt",
+				data: {'current':current},
+				success: function (result){
+					if (result == "<?php echo $this->session->userdata('password') ?>"){
+						console.log("matched");
+						$('#currentpassword_group').removeClass("has-error");
+						$('#currentpassword_group').addClass("has-success");
+						$('#check-curpwd').show();
+						$('#help-warning-curpwd').hide();
+						cur = true;
+					} else {
+						console.log("not matched");
+						$('#currentpassword_group').addClass("has-error");
+						$('#currentpassword_group').removeClass("has-success");
+						$('#check-curpwd').hide();
+						$('#help-warning-curpwd').show();
+						cur = false;
+					}
+				}
+			});
+		}
+	});
+
 	$('#newPassword').change(function(){
         if ($('#newPassword').val().length < 8){
           $('#newpassword_group').addClass('has-error');
           $('#newpassword_group').removeClass('has-success');
-          $('#help-warning-newpwd').css('display', 'block');
-          $('#check-newpwd').css('display', 'none');
+          $('#help-warning-newpwd').show();
+          $('#check-newpwd').hide();
           newpas = false;
         } else {
           $('#newpassword_group').removeClass('has-error');
           $('#newpassword_group').addClass('has-success');
-          $('#help-warning-newpwd').css('display', 'none');
-          $('#check-newpwd').css('display', 'block');
+          $('#help-warning-newpwd').hide();
+          $('#check-newpwd').show();
           newpas = true;
         }
      });
@@ -304,21 +367,21 @@ $(document).ready(function(){
         if ($('#newPassword') == "" || $('#confirmPasswordd') == ""){
           $('#confirmpassword_group').removeClass('has-success');
           $('#confirmpassword_group').removeClass('has-error');
-          $('#help-warning-conpwd').css('display', 'none');
-          $('#check-conpwd').css('display', 'none');
+          $('#help-warning-conpwd').hide();
+          $('#check-conpwd').hide();
           con = false;
         } else {
           if (($('#newPassword').val() == $('#confirmPassword').val())){
             $('#confirmpassword_group').addClass('has-success');
             $('#confirmpassword_group').removeClass('has-error');
-            $('#help-warning-conpwd').css('display', 'none');
-            $('#check-conpwd').css('display', 'block');
+            $('#help-warning-conpwd').hide();
+            $('#check-conpwd').show();
             con = true;
           } else {
             $('#confirmpassword_group').addClass('has-error');
             $('#confirmpassword_group').removeClass('has-success');
-            $('#help-warning-conpwd').css('display', 'block');
-            $('#check-conpwd').css('display', 'none');
+            $('#help-warning-conpwd').show();
+            $('#check-conpwd').hide();
             con = false;
           }
         }
@@ -343,12 +406,20 @@ $(document).ready(function(){
 	});
 
 	$('#security').submit(function(e){
+		if (!(cur)){
+			$('#currentPassword').focus();
+			$('#currentpassword_group').addClass("has-error");
+			e.preventDefault();
+		} else{
+			$('#confirmpassword_group').removeClass("has-error");
+		}
+
 		if (!(newpas)){
 			$('#newPassword').focus();
 			$('#password_group').addClass("has-error");
 			e.preventDefault();
 		} else {
-		$('#newpassword_group').removeClass("has-error");
+			$('#newpassword_group').removeClass("has-error");
 		}
 
 		if (!(con)){
@@ -359,39 +430,5 @@ $(document).ready(function(){
 			$('#confirmpassword_group').removeClass("has-error");
 		}
 	});
-
-	/*document.addEventListener('submit', function(e){
-		if (!(un)){
-			$('#username').focus();
-			$('#username_group').addClass("has-error");
-			e.preventDefault();
-		} else {
-			$('#username_group').removeClass("has-error");
-		}
-
-		if (!(em)){
-			$('#email').focus();
-			$('#email_group').addClass("has-error");
-			e.preventDefault();
-		} else {
-			$('#email_group').removeClass("has-error");
-		}
-
-		if (!(newpas)){
-			$('#newPassword').focus();
-			$('#password_group').addClass("has-error");
-			e.preventDefault();
-		} else {
-		$('#newpassword_group').removeClass("has-error");
-		}
-
-		if (!(con)){
-			$('#confirmPassword').focus();
-			$('#confirmpassword_group').addClass("has-error");
-			e.preventDefault();
-		} else {
-			$('#confirmpassword_group').removeClass("has-error");
-		}
-	});*/
 });
 </script>

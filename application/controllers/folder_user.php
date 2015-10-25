@@ -4,13 +4,13 @@
 
 		public function __construct(){
 			parent::__construct();
-			if (!($this->session->userdata('username'))){ redirect('login');}
+			if (!($this->session->userdata('username')) && $this->session->userdata('user_type') == '2'){ redirect('login');}
 			$this->load->model('user_model');
 			$this->load->model('report_model');
 			$this->load->model('folder_model');
 			$this->load->model('branch_model');
 			$this->load->model('file_model');
-			//$this->load->model('commit_model');	
+			$this->load->model('push_model');
 		}
 
 		public function index(){
@@ -66,22 +66,49 @@
 		}
 
 		public function push_page($foldername){
-			$folder = $this->folder_model->getFolderByFolderName(urldecode($foldername));
-			$data['title'] = urldecode($foldername);
+			$folder = $this->folder_model->getFolderByFolderName($this->session->userdata('user_id'), urldecode($foldername));
+			$data['title'] = "Push";
 			$data['folder'] = $folder;
-			$data['branches'] = $this->branch_model->getAllBranches($this->session->userdata['user_id'], $folder['folder_id']);
+			$data['branches'] = $this->branch_model->getAllBranches($folder['folder_id']);
 
 			$this->load->view('user/templates/header', $data);
 			$this->load->view('user/push', $data);
 			$this->load->view('user/templates/footer');
 		}
 
-		public function source($username, $foldername){
-			$data['title'] = "Folder Name";
-			
+		public function source_main($username, $foldername){
+			$user = $this->user_model->getUserByUsername(urldecode($username));
+			$folder = $this->folder_model->getFolderByFolderName($user['user_id'], urldecode($foldername));
+			$branches = $this->branch_model->getAllBranches($folder['folder_id']);
+			$data['title'] = $folder['folder_name'];
+			$data['user'] = $user;
+			$data['folder'] = $folder;
+			$data['branches'] = $branches;
+			$data['branch_count'] = count($branches);
+			$data['push_count'] = $this->push_model->getNumberOfPushByFolderID($folder['folder_id']);
+			$countTotalFiles = 0;
+			foreach ($branches as $branch) {
+				$countTotalFiles += $this->file_model->getNumberOfUserFolderBranchFilesByBranchID($branch['branch_id']);
+			}
+			$data['file_count'] = $countTotalFiles;
+
+			$this->load->view('user/templates/header', $data);
+			$this->load->view('user/source_main', $data);
+			$this->load->view('user/templates/footer');
+		}
+
+		public function source($username, $foldername, $branchname){
+			$user = $this->user_model->getUserByUsername(urldecode($username));
+			$folder = $this->folder_model->getFolderByFolderName($user['user_id'], urldecode($foldername));
+			$data['title'] = $folder['folder_name'];
+			$data['user'] = $user;
+			$data['folder'] = $folder;
+			$data['files'] = $this->file_model->getFilesUserFolderBranchByBranchID($this->branch_model->getBranchFolderByBranchName($folder['folder_id'], urldecode($branchname))['branch_id']);
+			$data['branches'] = $this->branch_model->getAllBranches($folder['folder_id']);
+			$data['branch_selected'] = urldecode($branchname);
+
 			$this->load->view('user/templates/header', $data);
 			$this->load->view('user/source');
-			$this->load->view('user/templates/footer');	
 		}
 
 		public function report(){
@@ -157,44 +184,43 @@
 		}
 
 		public function change_password($username){
-			$id = $this->user_model->getUserByUsername(urldecode($username))['user_id'];
-			$newpassword = sha1($this->input->post('txtNewPassword'));
-			$data = array('password' => $newpassword);
+			$current_password = sha1($this->input->post('txtCurrentPassword'));
+			
+			if ($current_password == $this->session->userdata('password')){
+				$id = $this->user_model->getUserByUsername(urldecode($username))['user_id'];
+				$newpassword = sha1($this->input->post('txtNewPassword'));
+				$data = array('password' => $newpassword);
+				$this->user_model->updateUser($id, $data);
+				$this->session->set_flashdata("message", "You successfully change your password!");
+				$this->session->set_userdata('password', $newpassword);
+			} else {
+				$this->session->set_flashdata("message", "There was an error changing your password");
+			}
 
-			$this->user_model->updateUser($id, $data);
-			$this->session->set_flashdata("message", "You successfully change your password!");
-			$this->session->set_userdata('password', $newpassword);
 			redirect('profile/'.$this->session->userdata('username'));
 		}
-
-		/*public function commit($foldername){
-			$folder = $this->folder_model->getFolderByFolderName(urldecode($foldername));
-			$commit_id = crc32($this->commit_mode->getCommitCounts().$foldername); 
-
-			$data_1 =  array(
-				'commit_id' => $commit_id,
-				'commit_message' => $this->input->post('txtCommitMessage'),
-				'folder_id' => $this->input->post($folder['folder_id']),
-				'user_id'=> $this->session->userdata('user_id')
-			);
-
-			foreach($_FILES['files'] as $file){
-				$data_2 = array(
-					'file_id' => sha1(filename($file))
-				);
-			}
-		}*/
 
 		public function push($foldername){
 			 if(sizeof($_FILES) > 0){
 			 	$foldername = urldecode($foldername);
-			 	$folder_id = $this->folder_model->getFolderByFolderName($foldername)['folder_id'];
+			 	$folder_id = $this->folder_model->getFolderByFolderName($this->session->userdata['user_id'], $foldername)['folder_id'];
 			 	$branchname = $_POST['branch'];
 			 	$uploadPath = 'upload/'.$this->session->userdata('user_id').'/'.$foldername.'/'.$_POST['branch'].'/';
 				
 				$this->deleteFilesNotExist($this->branch_model->getBranchFolderByBranchName($folder_id, $branchname)['branch_id'], $uploadPath);
 				$this->prepareUpload($_FILES, $uploadPath, $this->branch_model->getBranchFolderByBranchName($folder_id, $branchname)['branch_id']);
+					$data = array ('folder_id' => $folder_id);
+				$this->push_model->addPush($data);
 			}
+		}
+
+		public function createBranch(){
+			$generated_BranchId = sha1($this->input->post("folderAuthor").$this->input->post("txtFolderName").$this->input->post("txtBranchName"));
+			$folder_id = $this->folder_model->getFolderByFolderName($this->user_model->getUserByUsername($this->input->post("folderAuthor"))['user_id'], $this->input->post("txtFolderName"))['folder_id'];
+			$data_branch = array('branch_id' => $generated_BranchId, 'branch_name' => $this->input->post("txtBranchName"), 'folder_id' => $folder_id);
+			$this->branch_model->addBranch($data_branch);
+			//$this->session->set_flashdata("message", "<strong>".$this->input->post("txtBranchName")."</strong> has been successfully created!");
+			redirect('folder/'.$this->input->post("folderAuthor") .'/'. $this->input->post("txtFolderName") .'/'. $this->input->post("txtBranchName"));	
 		}
 
 		private function prepareUpload($uploads, $uploadDir, $branch_id){
@@ -289,5 +315,102 @@
 			$filepath = str_replace("\\", '/', $filepath);
 			$filepaths = explode('upload/', $filepath, 2);
 			return $filepaths[1];
+		}
+
+		public function encryptPassword(){
+			echo sha1($this->input->post('current'));
+		}
+
+		public function checkBranch(){
+			$user_id = $this->user_model->getUserByUsername($this->input->post('username'))['user_id'];
+			$folder_id = $this->folder_model->getFolderByFolderName($user_id, $this->input->post('folderName'))['folder_id'];
+			$branch = $this->branch_model->getBranchFolderByBranchName($folder_id, $this->input->post('branchName'));
+
+			if (!empty($branch)){
+				echo "1";
+			} else {
+				echo "0";
+			}
+		}
+
+		public function checkFolder(){
+			$user_id = $this->session->userdata('user_id');
+			$folder = $this->folder_model->getFolderByFolderName($user_id, $this->input->post('txtFolderName'));
+
+			if (!empty($folder)){
+				echo "1";
+			} else {
+				echo "0";
+			}
+		}
+
+		public function deleteFolder($foldername){
+			$user_id = $this->session->userdata('user_id');
+			$folder_id = $this->folder_model->getFolderByFolderName($user_id, urldecode($foldername))['folder_id'];
+			$dir = 'C:\\xampp\\htdocs\\folder\\upload\\'.$user_id.'\\'.urldecode($foldername);
+
+			delete_files($dir, TRUE);
+
+			redirect('folder/'.$this->session->userdata('username'));
+		}
+
+		public function changeAccess($foldername){
+			$user_id = $this->session->userdata('user_id');
+			$folder = $this->folder_model->getFolderByFolderName($user_id, urldecode($foldername));	
+			$data = null;
+
+			if ($folder['folder_access'] == '1'){
+				$data = array('folder_access' => '0');
+			} else {
+				$data =  array('folder_access' => '1');
+			}
+
+			$this->folder_model->updateFolder($folder['folder_id'], $data);
+			redirect('folder/'.$this->session->userdata('username'));
+		}
+
+		public function create_zip($username, $foldername, $branchname){
+			$user_id = $this->user_model->getUserByUsername($username)['user_id'];
+
+			$path = "C:../xampp/htdocs/folder/upload/".$user_id.'/'.urldecode($foldername).'/'.$branchname. '/';
+			$this->zip->read_dir($path, false);
+			$this->zip->download($foldername);
+		}
+
+		public function download_folder($foldername){
+			$url = "http://localhost/".urldecode($foldername).'.zip';
+			$zipFile = "C:/xampp/htdocs/hi.zip";
+			
+			$zipResource = fopen($zipFile, "w");
+			// Get The Zip File From Server
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+			curl_setopt($ch, CURLOPT_FILE, $zipResource);
+			$page = curl_exec($ch);
+			
+			if(!$page) {
+			 echo "Error :- ".curl_error($ch);
+			}
+			curl_close($ch);
+
+			$zip = new ZipArchive;
+			$extractPath = 'C:/xampp/htdocs/unzip/';
+			
+			if($zip->open($zipFile) != "true"){
+			 echo "Error :- Unable to open the Zip File";
+			} else {
+				/* Extract Zip File */
+				$zip->extractTo($extractPath);
+				$zip->close();
+				echo 'Done';
+			}
 		}
 	}

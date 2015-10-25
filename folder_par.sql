@@ -55,55 +55,9 @@ CREATE TABLE IF NOT EXISTS files(
 	FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
-/*-------------------------------------- not yet applied ---------------------------------------*/
-
-/*CREATE TABLE*/
-CREATE TABLE IF NOT EXISTS commits(
-	commit_id VARCHAR(10) NOT NULL PRIMARY KEY,
-	commit_message TEXT NOT NULL,
-	commit_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	commit_status CHAR(1) NOT NULL DEFAULT '0',
-	folder_id VARCHAR(42) NOT NULL,
-	user_id VARCHAR(42) NOT NULL,
-	file_id VARCHAR(42) NOT NULL,
-	FOREIGN KEY (folder_id) REFERENCES folders(folder_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (file_id) REFERENCES files(file_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS files_temp(
-	file_id VARCHAR(42) NOT NULL,
-	commit_id VARCHAR(10) NOT NULL,
-	FOREIGN KEY (commit_id) REFERENCES commits(commit_id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-
 CREATE TABLE IF NOT EXISTS push(
 	push_id INT NOT NULL AUTO_INCREMENT,
 	push_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	commit_id VARCHAR(10) NOT NULL,
-	FOREIGN KEY (commit_id) REFERENCES commits (commit_id)
-);
-
-/*
-CREATE TABLE pull_request(
-	repo_id VARCHAR (42) NOT NULL,
-	user_id VARCHAR (42) NOT NULL,
-	user_id_request (42) NOT NULL,
-	FOREIGN KEY (repo_id) REFERENCES repositories(repo_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (user_id_request) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE	
-);
-
-CREATE TABLE approve_request(
-
-);
-*/
-
-CREATE TABLE IF NOT EXISTS pull (
-	repo_id VARCHAR (42) NOT NULL,
-	user_id VARCHAR (42) NOT NULL,
-	FOREIGN KEY (repo_id) REFERENCES repositories(repo_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE
+	folder_id VARCHAR(42) NOT NULL,
+	FOREIGN KEY	(folder_id) REFERENCES folders(folder_id) ON UPDATE CASCADE ON DELETE CASCADE
 );

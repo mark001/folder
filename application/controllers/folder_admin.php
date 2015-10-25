@@ -4,7 +4,7 @@
 
 		public function __construct(){
 			parent::__construct();
-			if (!($this->session->userdata('username'))){ redirect('login');}
+			if (!($this->session->userdata('username')) && $this->session->userdata('user_type') == '1'){ redirect('login');}
 			$this->load->model('user_model');
 			$this->load->model('report_model');
 			$this->load->model('folder_model');
@@ -14,6 +14,8 @@
 			$data['title'] = 'Administrator';
 			$data['header'] = 'active';
 			$data['unread'] = $this->report_model->getNumberOfUnreadReports(); 
+			$data['users'] = $this->user_model->getNumberOfUsers();
+			$data['folders'] = $this->folder_model->getNumberOfFolders();
 
 			$this->load->view('admin/templates/header', $data);
 			$this->load->view('admin/home', $data);

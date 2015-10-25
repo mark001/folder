@@ -14,7 +14,11 @@
 			return $this->db->from($this->table)->where($where_clause)->get()->row_array();
 		}
 
-		public function getAllBranches($user_id, $folder_id){
+		public function getAllBranches($folder_id){
 			return $this->db->where('folder_id', $folder_id)->order_by('branch_name', 'asc')->get($this->table)->result_array();
+		}
+
+		public function getNumberOfUserFolderBranchesByFolderID($id){
+			return $this->db->from($this->table)->where('folder_id', $id)->count_all_results();
 		}
 	}

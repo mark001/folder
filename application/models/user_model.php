@@ -33,4 +33,7 @@
 		public function getAllUsers(){
 			return $this->db->order_by('username', 'asc')->get($this->table)->result_array();
 		}
+		public function getNumberOfUsers(){
+			return $this->db->from($this->table)->count_all_results();
+		}
 	}

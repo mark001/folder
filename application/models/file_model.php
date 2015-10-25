@@ -26,10 +26,14 @@
 			return $this->db->from($this->table)->where($where_clause)->get()->row_array();
 		}
 
-		/*public function getFileByID($id){
+		public function getFileByFileID($id){
 			return $this->db->from($this->table)->where('file_id', $id)->get()->row_array();
 		}
 
+		public function getNumberOfUserFolderBranchFilesByBranchID($id){
+			return $this->db->from($this->table)->where('branch_id', $id)->count_all_results();
+		}
+		/*
 		public function getFileByFileName($filename){
 			return $this->db->from($this->table)->where('file_name', $filename)->get()->row_array();
 		}

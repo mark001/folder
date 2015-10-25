@@ -37,14 +37,22 @@
                     <div class="form-group">
                       <label for="textArea" class="col-lg-2 control-label">Screenshot</label>
                       <div class="col-lg-10">
-                        <input type="file" name="imgScreenShot" accept="image/*">
                         <span class="help-block">You may provide a screenshot to understand better the problem.</span>
+                        <div class="col-sm-2 col-md-2">
+                            <label for="feedback">
+                              <div id="image-cropper-square">
+                                <img class="profile noselect" name="imgScreenShot" id="feedbackImg" src="<?php echo base_url(); ?>assets/img/placeholder.png">
+                              </div>
+                            </label>
+                            <input id="feedback" type="file" name="imgScreenShot"  accept ="image/**" onchange="readURLFeedback(this);">  
+                            
+                          </div>
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="col-lg-10 col-lg-offset-2">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="reset" id="cancel" class="btn btn-default">Cancel</button>
                       </div>
                     </div>
                   </fieldset>
@@ -66,14 +74,19 @@
                   <div class="form-group">
                     <label for="textArea" class="col-lg-2 control-label">Concept</label>
                     <div class="col-lg-10">
-                      <input type="file" name="imgScreenShot" accept="image/*">
                       <span class="help-block">You may provide your concept image.</span>
+                      <label for="suggest">
+                        <div id="image-cropper-square">
+                          <img class="profile noselect" name="imgScreenShot" id="suggestImg" src="<?php echo base_url(); ?>assets/img/placeholder.png">
+                        </div>
+                      </label>
+                      <input type="file" id="suggest" name="imgScreenShot" accept="image/*" onchange="readURLSuggest(this);">
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                       <button type="submit" class="btn btn-primary">Submit</button>
-                      <button type="reset" class="btn btn-default">Cancel</button>
+                      <button type="reset" id="cancel" class="btn btn-default">Cancel</button>
                     </div>
                   </div>
                 </fieldset>
@@ -82,4 +95,33 @@
         </div>
   </div>
 </div>
+<script>
+  function readURLFeedback(input){
+    if(input.files && input.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#feedbackImg')
+          .attr('src', e.target.result)
+          .width(auto)
+          .height(200);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+    function readURLSuggest(input){
+    if(input.files && input.files[0]){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        $('#suggestImg')
+          .attr('src', e.target.result)
+          .width(auto)
+          .height(200);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $('#cancel').click(function(){
+    location.reload('true');
+  });
+</script>
 <!--end content-->

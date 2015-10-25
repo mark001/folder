@@ -15,6 +15,11 @@
 			$this->load->view('signup');
 		}
 
+
+		public function error404(){
+			$this->load->view('404');
+		}
+
 		public function password_reset(){
 			$this->load->view('password_reset');
 		}

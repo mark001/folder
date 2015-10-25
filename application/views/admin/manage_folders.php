@@ -24,16 +24,12 @@
             <tr class="clickable-row" data-href="">
               <td><?php echo $folder['folder_name'] ?></td>
               <td><?php echo $this->user_model->getUserByUserID($folder['user_id'])['username'] ?></td>
-              <td><?php if ($folder['folder_access']=='1'){ echo "Private"; } else if ($folder['folder_access']=='2'){ echo "Public";} else { echo "error"; }  ?></td>
+              <td><?php if ($folder['folder_access']=='1'){ echo "Private"; } else { echo "Public";}  ?></td>
               <td><?php echo $folder['folder_type'] ?></td>
               <td>
                 <?php
                   echo date_format(date_create($folder['folder_update']), 'm/d/Y g:ia');
                 ?>
-              </td>
-              <td>
-                <a href="#" style="text-decoration:none;"><i class="fa fa-eye"></i> View</a> &nbsp;&nbsp;
-                <a href="#" style="text-decoration:none;"><i class="fa fa-trash"></i> Delete</a> &nbsp;&nbsp;
               </td>
             </tr>
           <?php } ?>

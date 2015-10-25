@@ -39,24 +39,8 @@
 */
 $route['translate_uri_dashes'] = TRUE;
 $route['default_controller'] = "folder";
-$route['404_override'] = '';
+$route['404_override'] = 'folder/error404';
 
-//client pages
-$route['home'] = "folder_user/index";
-$route['profile/(:any)'] = "folder_user/profile/$1";
-$route['feedback'] = "folder_user/feedback";
-$route['folder/new'] = "folder_user/new_folder";
-$route['folder/others'] = "folder_user/other_folders";
-$route['folder/(:any)/push'] = "folder_user/push_page/$1";
-$route['folder/(:any)/(:any)'] = "folder_user/source/$1/$2";
-$route['folder/(:any)'] = "folder_user/my_folders/$1";
-
-//client functions
-$route['reporting'] = "folder_user/report";
-$route['folder/create'] = "folder_user/createNewFolder";
-$route['edit/profile/(:any)'] = "folder_user/update_account_info/$1";
-$route['change/password/(:any)'] = "folder_user/change_password/$1";
-$route['push/(:any)'] = "folder_user/push/$1";
 
 //admin pages
 $route['administrator'] = "folder_admin/index";
@@ -82,6 +66,32 @@ $route['login'] = "folder/index";
 $route['logout'] = "folder/logout";
 $route['check/username/(:any)'] = "folder/check_user_username/$1";
 $route['check/email/(:any)'] = "folder/check_user_email/$1";
+
+//client functions
+$route['encrypt'] = "folder_user/encryptPassword";
+$route['reporting'] = "folder_user/report";
+$route['folder/create'] = "folder_user/createNewFolder";
+$route['edit/profile/(:any)'] = "folder_user/update_account_info/$1";
+$route['change/password/(:any)'] = "folder_user/change_password/$1";
+$route['push/(:any)'] = "folder_user/push/$1";
+$route['folder/branch/create'] = "folder_user/createBranch";
+$route['folder/branch/check'] = "folder_user/checkBranch";
+$route['folder/check'] = "folder_user/checkFolder";
+$route['folder/delete/(:any)'] = "folder_user/deleteFolder/$1";
+$route['folder/access/change/(:any)'] = "folder_user/changeAccess/$1";
+$route['folder/download/zip/(:any)/(:any)/(:any)'] = "folder_user/create_zip/$1/$2/$3";
+$route['folder/download/(:any)'] = "folder_user/download_folder/$1";
+
+//client pages
+$route['home'] = "folder_user/index";
+$route['profile/(:any)'] = "folder_user/profile/$1";
+$route['feedback'] = "folder_user/feedback";
+$route['folder/new'] = "folder_user/new_folder";
+$route['folder/others'] = "folder_user/other_folders";
+$route['folder/(:any)/push'] = "folder_user/push_page/$1";
+$route['folder/(:any)/(:any)/(:any)'] = "folder_user/source/$1/$2/$3";
+$route['folder/(:any)/(:any)'] = "folder_user/source_main/$1/$2";
+$route['folder/(:any)'] = "folder_user/my_folders/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
